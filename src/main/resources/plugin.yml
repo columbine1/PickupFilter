@@ -1,0 +1,31 @@
+name: PickupFilter
+version: 1.
+description: An item pickup filter with GUI that supports profiles, and automatic profiles based on factions territory the user is standing in.
+author: Chessboxer
+website: https://cbxn.io/mc/project/4-PickupFilter
+
+main: io.cbxn.filter.PickupFilter
+
+commands:
+  itemfilter:
+    description: Open the Item Filter GUI.
+    aliases: [if, pickupfilter]
+    permission: itemfilter
+    usage: /if
+  itemfilter enable:
+    description: Enables the item filter.
+    usage: /if enable
+  itemfilter disable:
+    description: Disables the item filter.
+    usage: /if disable
+  itemfilter toggle:
+    description: Toggles the item filter.
+    usage: /if toggle
+ 
+permissions:
+  itemfilter:
+    description: Allow the use of the Item Filter.
+    default: true
+    gui:
+      description: Open the Item Filter GUI.
+      default: true
