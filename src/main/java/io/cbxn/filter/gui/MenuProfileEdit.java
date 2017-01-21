@@ -5,6 +5,7 @@ import io.cbxn.filter.player.PlayerProfile;
 import io.cbxn.filter.profile.Activation;
 import io.cbxn.filter.profile.Profile;
 import io.cbxn.filter.profile.ProfileState;
+import org.apache.commons.lang.WordUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -13,6 +14,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,13 +53,13 @@ public class MenuProfileEdit extends MenuInventory {
     public Inventory createInventory(PlayerProfile pp) {
         Inventory inventory = Bukkit.createInventory(null, 36, getName());
 
-        inventory.setItem(10, getCat1Button(pp));
-        inventory.setItem(11, getCat2Button(pp));
-        inventory.setItem(12, getCat3Button(pp));
-        inventory.setItem(13, getCat4Button(pp));
-        inventory.setItem(14, getCat5Button(pp));
-        inventory.setItem(15, getCat6Button(pp));
-        inventory.setItem(16, getCat7Button(pp));
+        inventory.setItem(10, getCatButton(1, pp, listCategory1));
+        inventory.setItem(11, getCatButton(2, pp, listCategory2));
+        inventory.setItem(12, getCatButton(3, pp, listCategory3));
+        inventory.setItem(13, getCatButton(4, pp, listCategory4));
+        inventory.setItem(14, getCatButton(5, pp, listCategory5));
+        inventory.setItem(15, getCatButton(6, pp, listCategory6));
+        inventory.setItem(16, getCatButton(7, pp, listCategory7));
 
         inventory.setItem(0, getToggleButton(pp));
         inventory.setItem(27, getBackButton());
@@ -86,13 +88,13 @@ public class MenuProfileEdit extends MenuInventory {
     }
 
     public void updateInventory(PlayerProfile pp) {
-        pp.getPlayer().getOpenInventory().setItem(10, getCat1Button(pp));
-        pp.getPlayer().getOpenInventory().setItem(11, getCat2Button(pp));
-        pp.getPlayer().getOpenInventory().setItem(12, getCat3Button(pp));
-        pp.getPlayer().getOpenInventory().setItem(13, getCat4Button(pp));
-        pp.getPlayer().getOpenInventory().setItem(14, getCat5Button(pp));
-        pp.getPlayer().getOpenInventory().setItem(15, getCat6Button(pp));
-        pp.getPlayer().getOpenInventory().setItem(16, getCat7Button(pp));
+        pp.getPlayer().getOpenInventory().setItem(10, getCatButton(1, pp, listCategory1));
+        pp.getPlayer().getOpenInventory().setItem(11, getCatButton(2, pp, listCategory2));
+        pp.getPlayer().getOpenInventory().setItem(12, getCatButton(3, pp, listCategory3));
+        pp.getPlayer().getOpenInventory().setItem(13, getCatButton(4, pp, listCategory4));
+        pp.getPlayer().getOpenInventory().setItem(14, getCatButton(5, pp, listCategory5));
+        pp.getPlayer().getOpenInventory().setItem(15, getCatButton(6, pp, listCategory6));
+        pp.getPlayer().getOpenInventory().setItem(16, getCatButton(7, pp, listCategory7));
 
         pp.getPlayer().getOpenInventory().setItem(0, getToggleButton(pp));
         pp.getPlayer().getOpenInventory().setItem(27, getBackButton());
@@ -163,8 +165,8 @@ public class MenuProfileEdit extends MenuInventory {
         }
     }
 
-    private ItemStack getCat3Button(PlayerProfile pp) {
-        Material mat = Material.getMaterial(pickupFilter.getString("itemfilter.items.cat3icon"));
+    private ItemStack getCatButton(int id, PlayerProfile pp, List<String> list) {
+        Material mat = Material.getMaterial(pickupFilter.getString("itemfilter.items.cat" + id + "icon"));
         if (mat == null) {
             throw new NullPointerException("Material cannot be null.");
         }
@@ -172,101 +174,27 @@ public class MenuProfileEdit extends MenuInventory {
         ItemStack item = new ItemStack(mat);
 
         ItemMeta meta = item.getItemMeta();
-        meta.setDisplayName(pickupFilter.SECRET + pickupFilter.getString("itemfilter.items.cat3name"));
+        meta.setDisplayName(pickupFilter.SECRET + pickupFilter.getString("itemfilter.items.cat" + id + "name"));
 
-        item.setItemMeta(meta);
-        return item;
-    }
-
-    private ItemStack getCat4Button(PlayerProfile pp) {
-        Material mat = Material.getMaterial(pickupFilter.getString("itemfilter.items.cat4icon"));
-        if (mat == null) {
-            throw new NullPointerException("Material cannot be null.");
+        ArrayList<String> lore = new ArrayList<String>();
+        lore.add("");
+        lore.add(ChatColor.GOLD + "Filtered items:");
+        int i = 0;
+        for (String s : list) {
+            if (profile.getItems().contains(s)) {
+                lore.add(ChatColor.GRAY + "- " + WordUtils.capitalize(s.toLowerCase().replaceAll("_", " ")));
+                ++i;
+            }
         }
-
-        ItemStack item = new ItemStack(mat);
-
-        ItemMeta meta = item.getItemMeta();
-        meta.setDisplayName(pickupFilter.SECRET + pickupFilter.getString("itemfilter.items.cat4name"));
-
-        item.setItemMeta(meta);
-        return item;
-    }
-
-    private ItemStack getCat5Button(PlayerProfile pp) {
-        Material mat = Material.getMaterial(pickupFilter.getString("itemfilter.items.cat5icon"));
-        if (mat == null) {
-            throw new NullPointerException("Material cannot be null.");
+        if (i == 0) {
+            lore.add(ChatColor.GRAY + "" + ChatColor.ITALIC + "none");
         }
-
-        ItemStack item = new ItemStack(mat);
-
-        ItemMeta meta = item.getItemMeta();
-        meta.setDisplayName(pickupFilter.SECRET + pickupFilter.getString("itemfilter.items.cat5name"));
+        meta.setLore(lore);
 
         item.setItemMeta(meta);
         return item;
     }
 
-    private ItemStack getCat6Button(PlayerProfile pp) {
-        Material mat = Material.getMaterial(pickupFilter.getString("itemfilter.items.cat6icon"));
-        if (mat == null) {
-            throw new NullPointerException("Material cannot be null.");
-        }
-
-        ItemStack item = new ItemStack(mat);
-
-        ItemMeta meta = item.getItemMeta();
-        meta.setDisplayName(pickupFilter.SECRET + pickupFilter.getString("itemfilter.items.cat6name"));
-
-        item.setItemMeta(meta);
-        return item;
-    }
-
-    private ItemStack getCat7Button(PlayerProfile pp) {
-        Material mat = Material.getMaterial(pickupFilter.getString("itemfilter.items.cat7icon"));
-        if (mat == null) {
-            throw new NullPointerException("Material cannot be null.");
-        }
-
-        ItemStack item = new ItemStack(mat);
-
-        ItemMeta meta = item.getItemMeta();
-        meta.setDisplayName(pickupFilter.SECRET + pickupFilter.getString("itemfilter.items.cat7name"));
-
-        item.setItemMeta(meta);
-        return item;
-    }
-
-    private ItemStack getCat1Button(PlayerProfile pp) {
-        Material mat = Material.getMaterial(pickupFilter.getString("itemfilter.items.cat1icon"));
-        if (mat == null) {
-            throw new NullPointerException("Material cannot be null.");
-        }
-
-        ItemStack item = new ItemStack(mat);
-
-        ItemMeta meta = item.getItemMeta();
-        meta.setDisplayName(pickupFilter.SECRET + pickupFilter.getString("itemfilter.items.cat1name"));
-
-        item.setItemMeta(meta);
-        return item;
-    }
-
-    private ItemStack getCat2Button(PlayerProfile pp) {
-        Material mat = Material.getMaterial(pickupFilter.getString("itemfilter.items.cat2icon"));
-        if (mat == null) {
-            throw new NullPointerException("Material cannot be null.");
-        }
-
-        ItemStack item = new ItemStack(mat);
-
-        ItemMeta meta = item.getItemMeta();
-        meta.setDisplayName(pickupFilter.SECRET + pickupFilter.getString("itemfilter.items.cat2name"));
-
-        item.setItemMeta(meta);
-        return item;
-    }
 
     private ItemStack getToggleButton(PlayerProfile pp) {
         ItemStack item = new ItemStack(Material.WOOL, 1, (short) (profile.getState() == ProfileState.WHITELIST ? 0 : 15));
