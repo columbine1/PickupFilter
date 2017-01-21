@@ -34,7 +34,7 @@ public class UserManager {
 
     public void openInventory(PlayerProfile pp, MenuInventory menuInventory) {
         boolean openMatchesMenu = pp.getPlayer().getOpenInventory().getTopInventory().getName().equalsIgnoreCase(menuInventory.getName());
-        boolean currentMatchesMenu =  pp.getCurrentInventory().getName().equalsIgnoreCase(menuInventory.getName());
+        boolean currentMatchesMenu =  pp.getCurrentInventory() != null && pp.getCurrentInventory().getName().equalsIgnoreCase(menuInventory.getName());
 
         if (pp.getPlayer().getOpenInventory().getTopInventory() != null && openMatchesMenu) {
             if (pp.getCurrentInventory() != null && currentMatchesMenu) {

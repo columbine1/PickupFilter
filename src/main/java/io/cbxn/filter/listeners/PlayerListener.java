@@ -74,6 +74,33 @@ public class PlayerListener implements Listener {
     }
 
     @EventHandler
+    public void onItemPickup(PlayerPickupItemEvent event) {
+        if (pickupFilter.allowUse(event.getPlayer())) {
+            PlayerProfile found = pickupFilter.userManager.find(event.getPlayer().getUniqueId());
+
+            if (found != null && found.isEnabled() && found.getActiveProfile() != null) {
+                Profile active = found.getActiveProfile();
+                boolean allowPickup = true;
+                boolean check = !(event.getItem() == null || event.getItem().getItemStack() == null);
+
+                switch (active.getState()) {
+                    case WHITELIST:
+                        allowPickup = check && active.getItems().contains(event.getItem().getItemStack().getType().name());
+                        break;
+                    case BLACKLIST:
+                        allowPickup = check && !active.getItems().contains(event.getItem().getItemStack().getType().name());
+                        break;
+                }
+
+                if (!allowPickup) {
+                    event.setCancelled(true);
+                    // todo: Optionally delete non picked up items perhaps?
+                }
+            }
+        }
+    }
+
+    @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
         this.handleJoin(event.getPlayer());
     }

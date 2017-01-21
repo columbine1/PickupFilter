@@ -16,7 +16,7 @@ public class Profile {
 
     private String name;
     private ProfileState state = ProfileState.WHITELIST;
-    private final List<ItemStack> items = new ArrayList<ItemStack>();
+    private final List<String> items = new ArrayList<String>();
     public List<Activation> activation = new ArrayList<Activation>();
 
     public void setIcon(ItemStack icon) {
@@ -46,7 +46,7 @@ public class Profile {
         this.state = state;
     }
 
-    public List<ItemStack> getItems() {
+        public List<String> getItems() {
         return items;
     }
 

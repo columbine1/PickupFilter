@@ -26,41 +26,42 @@ public class MenuProfileEdit extends MenuInventory {
 
     private Profile profile;
 
-    private List<Integer> listArmor;
-    private List<Integer> listTools;
-    private List<Integer> listValuable;
-    private List<Integer> listPotionSupplies;
-    private List<Integer> listBlocks;
-    private List<Integer> listFarming;
-    private List<Integer> listFood;
+    private List<String> listCategory1;
+    private List<String> listCategory2;
+    private List<String> listCategory3;
+    private List<String> listCategory4;
+    private List<String> listCategory5;
+    private List<String> listCategory6;
+    private List<String> listCategory7;
 
     public MenuProfileEdit(PickupFilter pickupFilter, PlayerProfile pp, Profile profile) {
         super(pickupFilter, pickupFilter.getString("itemfilter.chat.menu.edit.title").replace("%NAME%", profile.getName()));
         this.profile = profile;
         pp.setEditingProfile(profile);
 
-        listArmor = pickupFilter.getConfig().getIntegerList("itemfilter.items.armor");
-        listTools = pickupFilter.getConfig().getIntegerList("itemfilter.items.tools");
-        listValuable = pickupFilter.getConfig().getIntegerList("itemfilter.items.vals");
-        listPotionSupplies = pickupFilter.getConfig().getIntegerList("itemfilter.items.pots");
-        listBlocks = pickupFilter.getConfig().getIntegerList("itemfilter.items.blocks");
-        listFarming = pickupFilter.getConfig().getIntegerList("itemfilter.items.farm");
-        listFood = pickupFilter.getConfig().getIntegerList("itemfilter.items.food");
+        listCategory1 = pickupFilter.getConfig().getStringList("itemfilter.items.cat1items");
+        listCategory2 = pickupFilter.getConfig().getStringList("itemfilter.items.cat2items");
+        listCategory3 = pickupFilter.getConfig().getStringList("itemfilter.items.cat3items");
+        listCategory4 = pickupFilter.getConfig().getStringList("itemfilter.items.cat4items");
+        listCategory5 = pickupFilter.getConfig().getStringList("itemfilter.items.cat5items");
+        listCategory6 = pickupFilter.getConfig().getStringList("itemfilter.items.cat6items");
+        listCategory7 = pickupFilter.getConfig().getStringList("itemfilter.items.cat7items");
     }
 
     public Inventory createInventory(PlayerProfile pp) {
         Inventory inventory = Bukkit.createInventory(null, 36, getName());
 
-        inventory.setItem(10, getArmorButton(pp));
-        inventory.setItem(11, getToolsButton(pp));
-        inventory.setItem(12, getValuableButton(pp));
-        inventory.setItem(13, getPotionSuppButton(pp));
-        inventory.setItem(14, getBlocksButton(pp));
-        inventory.setItem(15, getFarmingButton(pp));
-        inventory.setItem(16, getFoodButton(pp));
-        inventory.setItem(16, getFoodButton(pp));
+        inventory.setItem(10, getCat1Button(pp));
+        inventory.setItem(11, getCat2Button(pp));
+        inventory.setItem(12, getCat3Button(pp));
+        inventory.setItem(13, getCat4Button(pp));
+        inventory.setItem(14, getCat5Button(pp));
+        inventory.setItem(15, getCat6Button(pp));
+        inventory.setItem(16, getCat7Button(pp));
 
-        inventory.setItem(27, getWL_BLButton(pp));
+        inventory.setItem(0, getToggleButton(pp));
+        inventory.setItem(27, getBackButton());
+
         if (pickupFilter.hasFactions || pickupFilter.hasFactionsUUID) {
             inventory.setItem(29, getOwnLandButton(pp));
             inventory.setItem(30, getNeutralButton(pp));
@@ -74,16 +75,27 @@ public class MenuProfileEdit extends MenuInventory {
         return inventory;
     }
 
-    public void updateInventory(PlayerProfile pp) {
-        pp.getPlayer().getOpenInventory().setItem(10, getArmorButton(pp));
-        pp.getPlayer().getOpenInventory().setItem(11, getToolsButton(pp));
-        pp.getPlayer().getOpenInventory().setItem(12, getValuableButton(pp));
-        pp.getPlayer().getOpenInventory().setItem(13, getPotionSuppButton(pp));
-        pp.getPlayer().getOpenInventory().setItem(14, getBlocksButton(pp));
-        pp.getPlayer().getOpenInventory().setItem(15, getFarmingButton(pp));
-        pp.getPlayer().getOpenInventory().setItem(16, getFoodButton(pp));
+    private ItemStack getBackButton() {
+        ItemStack item = new ItemStack(Material.PAPER);
 
-        pp.getPlayer().getOpenInventory().setItem(27, getWL_BLButton(pp));
+        ItemMeta meta = item.getItemMeta();
+        meta.setDisplayName(pickupFilter.SECRET + ChatColor.GOLD + "Back");
+        item.setItemMeta(meta);
+
+        return item;
+    }
+
+    public void updateInventory(PlayerProfile pp) {
+        pp.getPlayer().getOpenInventory().setItem(10, getCat1Button(pp));
+        pp.getPlayer().getOpenInventory().setItem(11, getCat2Button(pp));
+        pp.getPlayer().getOpenInventory().setItem(12, getCat3Button(pp));
+        pp.getPlayer().getOpenInventory().setItem(13, getCat4Button(pp));
+        pp.getPlayer().getOpenInventory().setItem(14, getCat5Button(pp));
+        pp.getPlayer().getOpenInventory().setItem(15, getCat6Button(pp));
+        pp.getPlayer().getOpenInventory().setItem(16, getCat7Button(pp));
+
+        pp.getPlayer().getOpenInventory().setItem(0, getToggleButton(pp));
+        pp.getPlayer().getOpenInventory().setItem(27, getBackButton());
 
         if (pickupFilter.hasFactions || pickupFilter.hasFactionsUUID) {
             pp.getPlayer().getOpenInventory().setItem(29, getOwnLandButton(pp));
@@ -102,7 +114,25 @@ public class MenuProfileEdit extends MenuInventory {
             return;
         if (item == null || item.getItemMeta() == null) return;
         String nameD = item.getItemMeta().getDisplayName();
-        if (nameD.startsWith(pickupFilter.SECRET + pickupFilter.getString("itemfilter.chat.menu.edit.neut_name"))) {
+
+        if (nameD.equalsIgnoreCase(pickupFilter.SECRET + ChatColor.GOLD + "Back")) {
+            pp.setEditingProfile(null);
+            pickupFilter.userManager.openInventory(pp, new MenuProfileList(pickupFilter));
+        } else if (nameD.equalsIgnoreCase(pickupFilter.SECRET + pickupFilter.getString("itemfilter.items.cat3name"))) {
+            pickupFilter.userManager.openInventory(pp, new MenuItemSelect(pickupFilter, pp, profile, listCategory3));
+        } else if (nameD.equalsIgnoreCase(pickupFilter.SECRET + pickupFilter.getString("itemfilter.items.cat4name"))) {
+            pickupFilter.userManager.openInventory(pp, new MenuItemSelect(pickupFilter, pp, profile, listCategory4));
+        } else if (nameD.equalsIgnoreCase(pickupFilter.SECRET + pickupFilter.getString("itemfilter.items.cat5name"))) {
+            pickupFilter.userManager.openInventory(pp, new MenuItemSelect(pickupFilter, pp, profile, listCategory5));
+        } else if (nameD.equalsIgnoreCase(pickupFilter.SECRET + pickupFilter.getString("itemfilter.items.cat7name"))) {
+            pickupFilter.userManager.openInventory(pp, new MenuItemSelect(pickupFilter, pp, profile, listCategory7));
+        } else if (nameD.equalsIgnoreCase(pickupFilter.SECRET + pickupFilter.getString("itemfilter.items.cat6name"))) {
+            pickupFilter.userManager.openInventory(pp, new MenuItemSelect(pickupFilter, pp, profile, listCategory6));
+        } else if (nameD.equalsIgnoreCase(pickupFilter.SECRET + pickupFilter.getString("itemfilter.items.cat1name"))) {
+            pickupFilter.userManager.openInventory(pp, new MenuItemSelect(pickupFilter, pp, profile, listCategory1));
+        } else if (nameD.equalsIgnoreCase(pickupFilter.SECRET + pickupFilter.getString("itemfilter.items.cat2name"))) {
+            pickupFilter.userManager.openInventory(pp, new MenuItemSelect(pickupFilter, pp, profile, listCategory2));
+        } else if (nameD.startsWith(pickupFilter.SECRET + pickupFilter.getString("itemfilter.chat.menu.edit.neut_name"))) {
             checkState(Activation.NEUTRAL, pp);
         } else if (nameD.startsWith(pickupFilter.SECRET + pickupFilter.getString("itemfilter.chat.menu.edit.all_name"))) {
             checkState(Activation.ALLY, pp);
@@ -133,78 +163,112 @@ public class MenuProfileEdit extends MenuInventory {
         }
     }
 
-    private ItemStack getValuableButton(PlayerProfile pp) {
-        ItemStack item = new ItemStack(Material.GOLD_BLOCK);
+    private ItemStack getCat3Button(PlayerProfile pp) {
+        Material mat = Material.getMaterial(pickupFilter.getString("itemfilter.items.cat3icon"));
+        if (mat == null) {
+            throw new NullPointerException("Material cannot be null.");
+        }
+
+        ItemStack item = new ItemStack(mat);
 
         ItemMeta meta = item.getItemMeta();
-        meta.setDisplayName(pickupFilter.SECRET + ChatColor.AQUA + "Valuables");
-        ArrayList<String> lore = new ArrayList<String>();
+        meta.setDisplayName(pickupFilter.SECRET + pickupFilter.getString("itemfilter.items.cat3name"));
 
         item.setItemMeta(meta);
         return item;
     }
 
-    private ItemStack getPotionSuppButton(PlayerProfile pp) {
-        ItemStack item = new ItemStack(Material.POTION);
+    private ItemStack getCat4Button(PlayerProfile pp) {
+        Material mat = Material.getMaterial(pickupFilter.getString("itemfilter.items.cat4icon"));
+        if (mat == null) {
+            throw new NullPointerException("Material cannot be null.");
+        }
+
+        ItemStack item = new ItemStack(mat);
 
         ItemMeta meta = item.getItemMeta();
-        meta.setDisplayName(pickupFilter.SECRET + ChatColor.AQUA + "Potion Supplies");
+        meta.setDisplayName(pickupFilter.SECRET + pickupFilter.getString("itemfilter.items.cat4name"));
 
         item.setItemMeta(meta);
         return item;
     }
 
-    private ItemStack getBlocksButton(PlayerProfile pp) {
-        ItemStack item = new ItemStack(Material.DIRT);
+    private ItemStack getCat5Button(PlayerProfile pp) {
+        Material mat = Material.getMaterial(pickupFilter.getString("itemfilter.items.cat5icon"));
+        if (mat == null) {
+            throw new NullPointerException("Material cannot be null.");
+        }
+
+        ItemStack item = new ItemStack(mat);
 
         ItemMeta meta = item.getItemMeta();
-        meta.setDisplayName(pickupFilter.SECRET + ChatColor.AQUA + "Blocks");
+        meta.setDisplayName(pickupFilter.SECRET + pickupFilter.getString("itemfilter.items.cat5name"));
 
         item.setItemMeta(meta);
         return item;
     }
 
-    private ItemStack getFarmingButton(PlayerProfile pp) {
-        ItemStack item = new ItemStack(Material.DIAMOND_HOE);
+    private ItemStack getCat6Button(PlayerProfile pp) {
+        Material mat = Material.getMaterial(pickupFilter.getString("itemfilter.items.cat6icon"));
+        if (mat == null) {
+            throw new NullPointerException("Material cannot be null.");
+        }
+
+        ItemStack item = new ItemStack(mat);
 
         ItemMeta meta = item.getItemMeta();
-        meta.setDisplayName(pickupFilter.SECRET + ChatColor.AQUA + "Farming");
+        meta.setDisplayName(pickupFilter.SECRET + pickupFilter.getString("itemfilter.items.cat6name"));
 
         item.setItemMeta(meta);
         return item;
     }
 
-    private ItemStack getFoodButton(PlayerProfile pp) {
-        ItemStack item = new ItemStack(Material.TNT);
+    private ItemStack getCat7Button(PlayerProfile pp) {
+        Material mat = Material.getMaterial(pickupFilter.getString("itemfilter.items.cat7icon"));
+        if (mat == null) {
+            throw new NullPointerException("Material cannot be null.");
+        }
+
+        ItemStack item = new ItemStack(mat);
 
         ItemMeta meta = item.getItemMeta();
-        meta.setDisplayName(pickupFilter.SECRET + ChatColor.AQUA + "Raiding Supplies");
+        meta.setDisplayName(pickupFilter.SECRET + pickupFilter.getString("itemfilter.items.cat7name"));
 
         item.setItemMeta(meta);
         return item;
     }
 
-    private ItemStack getArmorButton(PlayerProfile pp) {
-        ItemStack item = new ItemStack(Material.DIAMOND_HELMET);
+    private ItemStack getCat1Button(PlayerProfile pp) {
+        Material mat = Material.getMaterial(pickupFilter.getString("itemfilter.items.cat1icon"));
+        if (mat == null) {
+            throw new NullPointerException("Material cannot be null.");
+        }
+
+        ItemStack item = new ItemStack(mat);
 
         ItemMeta meta = item.getItemMeta();
-        meta.setDisplayName(pickupFilter.SECRET + ChatColor.AQUA + "Armor and Weapons");
+        meta.setDisplayName(pickupFilter.SECRET + pickupFilter.getString("itemfilter.items.cat1name"));
 
         item.setItemMeta(meta);
         return item;
     }
 
-    private ItemStack getToolsButton(PlayerProfile pp) {
-        ItemStack item = new ItemStack(Material.DIAMOND_PICKAXE);
+    private ItemStack getCat2Button(PlayerProfile pp) {
+        Material mat = Material.getMaterial(pickupFilter.getString("itemfilter.items.cat2icon"));
+        if (mat == null) {
+            throw new NullPointerException("Material cannot be null.");
+        }
+
+        ItemStack item = new ItemStack(mat);
 
         ItemMeta meta = item.getItemMeta();
-        meta.setDisplayName(pickupFilter.SECRET + ChatColor.AQUA + "Tools");
+        meta.setDisplayName(pickupFilter.SECRET + pickupFilter.getString("itemfilter.items.cat2name"));
 
         item.setItemMeta(meta);
         return item;
     }
 
-    private ItemStack getWL_BLButton(PlayerProfile pp) {
+    private ItemStack getToggleButton(PlayerProfile pp) {
         ItemStack item = new ItemStack(Material.WOOL, 1, (short) (profile.getState() == ProfileState.WHITELIST ? 0 : 15));
 
         ItemMeta meta = item.getItemMeta();
@@ -244,9 +308,9 @@ public class MenuProfileEdit extends MenuInventory {
         boolean allow = checked == null;
 
         if (allow) {
-            lore.add(pickupFilter.getString("itemfilter.chat.menu.edit.neut_lore1"));
-            lore.add(pickupFilter.getString("itemfilter.chat.menu.edit.neut_lore2"));
-            lore.add(pickupFilter.getString("itemfilter.chat.menu.edit.neut_lore3"));
+            lore.add(pickupFilter.getString("itemfilter.chat.menu.edit.lore1"));
+            lore.add(pickupFilter.getString("itemfilter.chat.menu.edit.lore2"));
+            lore.add(pickupFilter.getString("itemfilter.chat.menu.edit.lore3"));
         } else if (checked != profile) {
             lore.add(pickupFilter.getString("itemfilter.chat.menu.edit.err_lore1").replace("%NAME%", checked.getName()));
             lore.add(pickupFilter.getString("itemfilter.chat.menu.edit.err_lore2").replace("%NAME%", checked.getName()));
@@ -271,9 +335,9 @@ public class MenuProfileEdit extends MenuInventory {
         boolean allow = checked == null;
 
         if (allow) {
-            lore.add(pickupFilter.getString("itemfilter.chat.menu.edit.all_lore1"));
-            lore.add(pickupFilter.getString("itemfilter.chat.menu.edit.all_lore2"));
-            lore.add(pickupFilter.getString("itemfilter.chat.menu.edit.all_lore3"));
+            lore.add(pickupFilter.getString("itemfilter.chat.menu.edit.lore1"));
+            lore.add(pickupFilter.getString("itemfilter.chat.menu.edit.lore2"));
+            lore.add(pickupFilter.getString("itemfilter.chat.menu.edit.lore3"));
         } else if (checked != profile) {
             lore.add(pickupFilter.getString("itemfilter.chat.menu.edit.err_lore1").replace("%NAME%", checked.getName()));
             lore.add(pickupFilter.getString("itemfilter.chat.menu.edit.err_lore2").replace("%NAME%", checked.getName()));
@@ -298,9 +362,9 @@ public class MenuProfileEdit extends MenuInventory {
         boolean allow = checked == null;
 
         if (allow) {
-            lore.add(pickupFilter.getString("itemfilter.chat.menu.edit.truc_lore1"));
-            lore.add(pickupFilter.getString("itemfilter.chat.menu.edit.truc_lore2"));
-            lore.add(pickupFilter.getString("itemfilter.chat.menu.edit.truc_lore3"));
+            lore.add(pickupFilter.getString("itemfilter.chat.menu.edit.lore1"));
+            lore.add(pickupFilter.getString("itemfilter.chat.menu.edit.lore2"));
+            lore.add(pickupFilter.getString("itemfilter.chat.menu.edit.lore3"));
         } else if (checked != profile) {
             lore.add(pickupFilter.getString("itemfilter.chat.menu.edit.err_lore1").replace("%NAME%", checked.getName()));
             lore.add(pickupFilter.getString("itemfilter.chat.menu.edit.err_lore2").replace("%NAME%", checked.getName()));
@@ -325,9 +389,9 @@ public class MenuProfileEdit extends MenuInventory {
         boolean allow = checked == null;
 
         if (allow) {
-            lore.add(pickupFilter.getString("itemfilter.chat.menu.edit.peac_lore1"));
-            lore.add(pickupFilter.getString("itemfilter.chat.menu.edit.peac_lore2"));
-            lore.add(pickupFilter.getString("itemfilter.chat.menu.edit.peac_lore3"));
+            lore.add(pickupFilter.getString("itemfilter.chat.menu.edit.lore1"));
+            lore.add(pickupFilter.getString("itemfilter.chat.menu.edit.lore2"));
+            lore.add(pickupFilter.getString("itemfilter.chat.menu.edit.lore3"));
         } else if (checked != profile) {
             lore.add(pickupFilter.getString("itemfilter.chat.menu.edit.err_lore1").replace("%NAME%", checked.getName()));
             lore.add(pickupFilter.getString("itemfilter.chat.menu.edit.err_lore2").replace("%NAME%", checked.getName()));
@@ -352,9 +416,9 @@ public class MenuProfileEdit extends MenuInventory {
         boolean allow = checked == null;
 
         if (allow) {
-            lore.add(pickupFilter.getString("itemfilter.chat.menu.edit.own_lore1"));
-            lore.add(pickupFilter.getString("itemfilter.chat.menu.edit.own_lore2"));
-            lore.add(pickupFilter.getString("itemfilter.chat.menu.edit.own_lore3"));
+            lore.add(pickupFilter.getString("itemfilter.chat.menu.edit.lore1"));
+            lore.add(pickupFilter.getString("itemfilter.chat.menu.edit.lore2"));
+            lore.add(pickupFilter.getString("itemfilter.chat.menu.edit.lore3"));
         } else if (checked != profile) {
             lore.add(pickupFilter.getString("itemfilter.chat.menu.edit.err_lore1").replace("%NAME%", checked.getName()));
             lore.add(pickupFilter.getString("itemfilter.chat.menu.edit.err_lore2").replace("%NAME%", checked.getName()));
@@ -379,9 +443,9 @@ public class MenuProfileEdit extends MenuInventory {
         boolean allow = checked == null;
 
         if (allow) {
-            lore.add(pickupFilter.getString("itemfilter.chat.menu.edit.enem_lore1"));
-            lore.add(pickupFilter.getString("itemfilter.chat.menu.edit.enem_lore2"));
-            lore.add(pickupFilter.getString("itemfilter.chat.menu.edit.enem_lore3"));
+            lore.add(pickupFilter.getString("itemfilter.chat.menu.edit.lore1"));
+            lore.add(pickupFilter.getString("itemfilter.chat.menu.edit.lore2"));
+            lore.add(pickupFilter.getString("itemfilter.chat.menu.edit.lore3"));
         } else if (checked != profile) {
             lore.add(pickupFilter.getString("itemfilter.chat.menu.edit.err_lore1").replace("%NAME%", checked.getName()));
             lore.add(pickupFilter.getString("itemfilter.chat.menu.edit.err_lore2").replace("%NAME%", checked.getName()));
@@ -406,9 +470,9 @@ public class MenuProfileEdit extends MenuInventory {
         boolean allow = checked == null;
 
         if (allow) {
-            lore.add(pickupFilter.getString("itemfilter.chat.menu.edit.wild_lore1"));
-            lore.add(pickupFilter.getString("itemfilter.chat.menu.edit.wild_lore2"));
-            lore.add(pickupFilter.getString("itemfilter.chat.menu.edit.wild_lore3"));
+            lore.add(pickupFilter.getString("itemfilter.chat.menu.edit.lore1"));
+            lore.add(pickupFilter.getString("itemfilter.chat.menu.edit.lore2"));
+            lore.add(pickupFilter.getString("itemfilter.chat.menu.edit.lore3"));
         } else if (checked != profile) {
             lore.add(pickupFilter.getString("itemfilter.chat.menu.edit.err_lore1").replace("%NAME%", checked.getName()));
             lore.add(pickupFilter.getString("itemfilter.chat.menu.edit.err_lore2").replace("%NAME%", checked.getName()));

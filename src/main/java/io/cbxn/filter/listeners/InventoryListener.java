@@ -1,6 +1,8 @@
 package io.cbxn.filter.listeners;
 
 import io.cbxn.filter.PickupFilter;
+import io.cbxn.filter.gui.MenuItemSelect;
+import io.cbxn.filter.gui.MenuProfileEdit;
 import io.cbxn.filter.gui.MenuProfileList;
 import io.cbxn.filter.player.PlayerProfile;
 import io.cbxn.filter.profile.Profile;
@@ -37,18 +39,9 @@ public class InventoryListener implements Listener {
 
         if (found != null && found.getCurrentInventory() != null) {
             if (event.getInventory().getName().equalsIgnoreCase(found.getCurrentInventory().getName())) {
-
-                if (found.getEditingProfile() != null && found.getCurrentInventory().getName().equalsIgnoreCase(pickupFilter.getString("itemfilter.chat.menu.edit.title").replace("%NAME%", found.getEditingProfile().getName()))) {
-                    BukkitScheduler scheduler = pickupFilter.getServer().getScheduler();
-                    scheduler.scheduleSyncDelayedTask(pickupFilter, new Runnable() {
-                        public void run() {
-                            found.setCurrentInventory(null);
-                            found.getPlayer().closeInventory();
-                            pickupFilter.userManager.openInventory(found, new MenuProfileList(pickupFilter));
-                        }
-                    }, 1L);
-                } else {
-                    found.setCurrentInventory(null);
+                found.setCurrentInventory(null);
+                if (found.getEditingProfile() != null && !found.isWaitingOnChat()) {
+                    found.setEditingProfile(null);
                 }
             }
         }

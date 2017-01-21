@@ -10,25 +10,41 @@
 
 itemfilter:
   items:
-    armor: [0, 298, 302, 306, 310, 314, 261, 262, 0,
-            0, 299, 303, 307, 311, 315, 267, 0, 0]
-    tools: [1, 2]
-    vals: [1, 2]
-    pots: [1, 2]
-    blocks: [1, 2]
-    farm: [1, 2]
-    food: [1, 2]
+    cat1name:       'Armor and Weapons'
+    cat1icon:       'DIAMOND_HELMET'
+    cat1items:      [STONE, GRASS]
+    cat2name:       'Tools'
+    cat2icon:       'DIAMOND_PICKAXE'
+    cat2items:      [STONE, GRASS]
+    cat3name:       'Valuables'
+    cat3icon:       'GOLD_BLOCK'
+    cat3items:      [STONE, GRASS]
+    cat4name:       'Potion Supplies'
+    cat4icon:       'GLASS_BOTTLE'
+    cat4items:      [STONE, GRASS]
+    cat5name:       'Blocks'
+    cat5icon:       'GRASS'
+    cat5items:      [STONE, GRASS]
+    cat6name:       'Farming'
+    cat6icon:       'SEEDS'
+    cat6items:      [STONE, GRASS]
+    cat7name:       'Raiding Supplies'
+    cat7icon:       'TNT'
+    cat7items:      [STONE, GRASS]
+
   chat:
     error:          '&cYou are not allowed to use this command!'
     status:
-      enabled:      '&bItem Filter has been &aenabled&b.'
-      disabled:     '&bItem Filter has been &cdisabled&b.'
-    profileset:     '&bItem filter profile set to: &9%NAME%.'
+      enabled:      '&6&lITEM FILTER &r&7Has been &aenabled&b.'
+      disabled:     '&6&lITEM FILTER &r&7Has been &cdisabled&b.'
+    profileset:     '&6&lITEM FILTER &r&7Profile set to: &6%NAME%.'
+
     profile:
       error:        '&cProfile name can not be longer than 12 or shorter than 3. Please try another.'
       invalid:      '&cProfile name contains invalid characters. Please try another.'
       exists:       '&cA profile with that name already exists. Please try another.'
       success:      '&aProfile name has been set to &b%NAME%&a.'
+
     menu:
       profiles:
         title:      '&9Item Pickup Filter'
@@ -38,11 +54,17 @@ itemfilter:
         activate:   '&7Activate Profile'
         left:       '&aLeft click &7to edit'
         right:      '&aRight click &7to change name'
-        chatmsg:    '&b&l[Pickup Filter] Type in the new name of your profile.'
+        chatmsg:    '&6&lITEM FILTER &r&7&lType in the new name of your profile.'
         enablmsg:   '&a&lEnabled'
         disablmsg:  '&c&lDisabled'
+
         msglore1:   '&7Show messages when profiles'
         msglore2:   '&7switch automatically.'
+
+      item:
+        title:      '&7Select Items'
+        update:     '&6&lITEM FILTER &r&7Profile icon updated.'
+
       edit:
         title:      '&9Edit Profile: &b%NAME%' #Max characters: 24 INCL. color codes
         error:      '&cA different profile already has this flag. &l(%NAME%)'
@@ -52,36 +74,13 @@ itemfilter:
         err_lore3:  '&7(%NAME%)'
 
         wild_name:  '&2&lWilderness'
-        wild_lore1: '&7Enabling will automatically activate'
-        wild_lore2: '&7the profile when you enter'
-        wild_lore3: '&2Wilderness &r&7land.'
-
         all_name:   '&5&lAlly'
-        all_lore1:  '&7Enabling will automatically activate'
-        all_lore2:  '&7the profile when you enter'
-        all_lore3:  '&5Ally &r&7land.'
-
         enem_name:  '&4&lEnemy'
-        enem_lore1: '&7Enabling will automatically activate'
-        enem_lore2: '&7the profile when you enter'
-        enem_lore3: '&4Enemy &r&7land.'
-
         truc_name:  '&d&lTruce'
-        truc_lore1: '&7Enabling will automatically activate'
-        truc_lore2: '&7the profile when you enter'
-        truc_lore3: '&dTruce &r&7land.'
-
         peac_name:  '&d&lPeaceful'
-        peac_lore1: '&7Enabling will automatically activate'
-        peac_lore2: '&7the profile when you enter'
-        peac_lore3: '&dPeaceful &r&7land.'
-
-        own_name:  '&a&lOwn land'
-        own_lore1: '&7Enabling will automatically activate'
-        own_lore2: '&7the profile when you enter'
-        own_lore3: '&ayour &r&7land.'
-
+        own_name:   '&a&lOwn land'
         neut_name:  '&e&lNeutral land'
-        neut_lore1: '&7Enabling will automatically activate'
-        neut_lore2: '&7the profile when you enter'
-        neut_lore3: '&eNeutral &r&7land.'
+
+        lore1: '&7Enabling will automatically activate'
+        lore2: '&7the profile when you enter'
+        lore3: '&7this land.'

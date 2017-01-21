@@ -2,7 +2,6 @@ package io.cbxn.filter;
 
 import io.cbxn.filter.commands.ItemFilterCommand;
 import io.cbxn.filter.listeners.InventoryListener;
-import io.cbxn.filter.listeners.PickupListener;
 import io.cbxn.filter.listeners.PlayerListener;
 import io.cbxn.filter.listeners.factions.FactionsListener;
 import io.cbxn.filter.manager.UserManager;
@@ -28,7 +27,6 @@ public class PickupFilter extends JavaPlugin {
     @Override
     public void onEnable() {
         /* Listeners */
-        this.getServer().getPluginManager().registerEvents(new PickupListener(this), this);
         this.getServer().getPluginManager().registerEvents(new PlayerListener(this), this);
         this.getServer().getPluginManager().registerEvents(new InventoryListener(this), this);
 
