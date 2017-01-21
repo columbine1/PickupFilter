@@ -116,10 +116,15 @@ public class PlayerListener implements Listener {
     }
 
     private void handleJoin(Player p) {
+        PlayerProfile check = pickupFilter.userManager.find(p.getUniqueId());
+        if (check != null) {
+            pickupFilter.userManager.save(check, p.getUniqueId());
+        }
+
         PlayerProfile playerProfile = new PlayerProfile();
         playerProfile.setPlayer(p);
 
-        // todo: Load settings
+        pickupFilter.userManager.load(playerProfile, p.getUniqueId());
 
         for (int i = 9; i >= 1; i--) {
             if (p.hasPermission("itemfilter.profiles.max." + i)) {
@@ -132,7 +137,10 @@ public class PlayerListener implements Listener {
     }
 
     private void handleQuit(Player p) {
-        // todo: Save settings
-        pickupFilter.userManager.getPlayers().remove(p.getUniqueId());
+        PlayerProfile check = pickupFilter.userManager.find(p.getUniqueId());
+        if (check != null) {
+            pickupFilter.userManager.save(check, p.getUniqueId());
+            pickupFilter.userManager.getPlayers().remove(p.getUniqueId());
+        }
     }
 }

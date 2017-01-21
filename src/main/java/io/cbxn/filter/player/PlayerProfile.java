@@ -31,7 +31,7 @@ public class PlayerProfile {
     public boolean enableMsgs = true;
 
     public PlayerProfile() {
-        for (int i = 0; i < getMaxProfiles(); i++) {
+        for (int i = 0; i < 9; i++) {
             Profile profile = new Profile("Profile " + (i + 1));
             getProfiles().add(profile);
 

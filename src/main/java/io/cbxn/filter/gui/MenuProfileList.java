@@ -23,7 +23,6 @@ import java.util.ArrayList;
  */
 public class MenuProfileList extends MenuInventory {
 
-
     public MenuProfileList(PickupFilter pickupFilter) {
         super(pickupFilter, pickupFilter.getString("itemfilter.chat.menu.profiles.title"));
     }

@@ -16,7 +16,7 @@ public class Profile {
 
     private String name;
     private ProfileState state = ProfileState.WHITELIST;
-    private final List<String> items = new ArrayList<String>();
+    public List<String> items = new ArrayList<String>();
     public List<Activation> activation = new ArrayList<Activation>();
 
     public void setIcon(ItemStack icon) {

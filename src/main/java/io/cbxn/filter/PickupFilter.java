@@ -46,6 +46,8 @@ public class PickupFilter extends JavaPlugin {
         } else {
             log("Factions plugin could not be found, not supporting!");
         }
+
+        this.saveDefaultConfig();
     }
 
     @Override
