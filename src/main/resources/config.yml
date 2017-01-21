@@ -10,25 +10,50 @@
 
 itemfilter:
   items:
-    cat1name:       'Armor and Weapons'
+    cat1name:       '&6&lArmor and Weapons'
     cat1icon:       'DIAMOND_HELMET'
-    cat1items:      [STONE, GRASS]
-    cat2name:       'Tools'
+    cat1items:      [
+                      AIR, LEATHER_HELMET, CHAINMAIL_HELMET, IRON_HELMET, DIAMOND_HELMET, GOLD_HELMET, WOOD_SWORD, STONE_SWORD, AIR,
+                      AIR, LEATHER_CHESTPLATE, CHAINMAIL_CHESTPLATE, IRON_CHESTPLATE, DIAMOND_CHESTPLATE, GOLD_CHESTPLATE, IRON_SWORD, BOW, AIR,
+                      AIR, LEATHER_LEGGINGS, CHAINMAIL_LEGGINGS, IRON_LEGGINGS, DIAMOND_LEGGINGS, GOLD_LEGGINGS, DIAMOND_SWORD, ARROW, AIR,
+                      AIR, LEATHER_BOOTS, CHAINMAIL_BOOTS, IRON_BOOTS, DIAMOND_BOOTS, GOLD_BOOTS, GOLD_SWORD, ENDER_PEARL, AIR
+                    ]
+
+    cat2name:       '&6&lTools'
     cat2icon:       'DIAMOND_PICKAXE'
-    cat2items:      [STONE, GRASS]
-    cat3name:       'Valuables'
+    cat2items:      [
+                      AIR, WOOD_PICKAXE, WOOD_SPADE, WOOD_AXE, WOOD_HOE, STONE_PICKAXE, STONE_SPADE, STONE_AXE, AIR,
+                      AIR, STONE_HOE, IRON_PICKAXE, IRON_SPADE, IRON_AXE, IRON_HOE, GOLD_PICKAXE, GOLD_SPADE, AIR,
+                      AIR, GOLD_AXE, GOLD_HOE, DIAMOND_PICKAXE, DIAMOND_SPADE, DIAMOND_AXE, DIAMOND_HOE, FISHING_ROD, AIR,
+                      AIR, FLINT_AND_STEEL, COMPASS, WATCH, SHEARS, LEASH, NAME_TAG, AIR, AIR
+                    ]
+
+    cat3name:       '&6&lValuables'
     cat3icon:       'GOLD_BLOCK'
-    cat3items:      [STONE, GRASS]
-    cat4name:       'Potion Supplies'
+    cat3items:      [
+                      AIR, AIR, COAL, DIAMOND, IRON_INGOT, GOLD_INGOT, GOLD_NUGGET, AIR, AIR,
+                      AIR, AIR, SULPHUR, GLOWSTONE_DUST, REDSTONE_WIRE, ENDER_PEARL, NETHER_STAR, AIR, AIR,
+                      AIR, AIR, REDSTONE_BLOCK, IRON_BLOCK, GOLD_BLOCK, DIAMOND_BLOCK, EMERALD_BLOCK, AIR, AIR,
+                      AIR, AIR, HOPPER, BEACON, GOLDEN_APPLE, MOB_SPAWNER
+                    ]
+
+    cat4name:       '&6&lPotion Supplies'
     cat4icon:       'GLASS_BOTTLE'
-    cat4items:      [STONE, GRASS]
-    cat5name:       'Blocks'
+    cat4items:      [
+                      AIR, AIR, AIR, AIR, AIR, AIR, AIR, AIR, AIR,
+                      AIR, AIR, AIR, MAGMA_CREAM, BLAZE_POWDER, FERMENTED_SPIDER_EYE, AIR, AIR, AIR,
+                      AIR, AIR, AIR, SPECKLED_MELON, GLASS_BOTTLE, GHAST_TEAR
+                    ]
+
+    cat5name:       '&6&lBlocks and Ores'
     cat5icon:       'GRASS'
     cat5items:      [STONE, GRASS]
-    cat6name:       'Farming'
+
+    cat6name:       '&6&lFarming'
     cat6icon:       'SEEDS'
     cat6items:      [STONE, GRASS]
-    cat7name:       'Raiding Supplies'
+
+    cat7name:       '&6&lRaiding Supplies'
     cat7icon:       'TNT'
     cat7items:      [STONE, GRASS]
 
